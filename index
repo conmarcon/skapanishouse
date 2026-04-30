@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skapani's House - Guest Info</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-color: #121826;
+            --card-bg: #1c2536;
+            --item-bg: #252e3f;
+            --accent-orange: #f39c12;
+            --text-main: #ffffff;
+            --text-secondary: #a0a0a0;
+            --border-radius: 16px;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            line-height: 1.6;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        /* --- ΓΛΩΣΣΕΣ (Σημαίες) --- */
+        .language-picker {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 20px;
+            padding-top: 10px;
+        }
+
+        .flag {
+            font-size: 1.5rem;
+            cursor: pointer;
+            filter: grayscale(0.4);
+            transition: transform 0.2s, filter 0.2s;
+        }
+
+        .flag:hover, .flag.active {
+            transform: scale(1.2);
+            filter: grayscale(0);
+        }
+
+        .page { display: none; }
+        .page.active { display: block; animation: fadeIn 0.3s ease; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* --- ΑΡΧΙΚΗ ΣΕΛΙΔΑ --- */
+        header { margin-bottom: 30px; }
+        .welcome-text { color: var(--accent-orange); font-size: 0.8rem; text-transform: uppercase; font-weight: 600; }
+        h1 { font-size: 2.2rem; font-weight: 600; margin: 5px 0; }
+        .location-sub { color: var(--text-secondary); font-size: 1rem; }
+
+        .full-width-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 15px 20px;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .icon-circle {
+            width: 45px; height: 45px;
+            background-color: var(--accent-orange);
+            border-radius: 50%;
+            display: flex; justify-content: center; align-items: center;
+            margin-right: 15px; font-size: 1.2rem;
+        }
+
+        .grid-container { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; margin-top: 20px; }
+        .grid-item {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 25px 15px;
+            display: flex; flex-direction: column; gap: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            cursor: pointer;
+        }
+
+        .small-icon {
+            width: 40px; height: 40px;
+            background-color: var(--accent-orange);
+            border-radius: 12px;
+            display: flex; justify-content: center; align-items: center; font-size: 1.2rem;
+        }
+
+        /* --- ΣΤΥΛ ΕΣΩΤΕΡΙΚΩΝ ΣΕΛΙΔΩΝ --- */
+        .header-nav { display: flex; align-items: center; margin-bottom: 25px; gap: 15px; }
+        .back-button {
+            width: 40px; height: 40px; background-color: var(--card-bg);
+            border-radius: 50%; display: flex; justify-content: center; align-items: center;
+            color: white; border: 1px solid rgba(255, 255, 255, 0.1); cursor: pointer;
+        }
+        .category-title {
+            display: flex; align-items: center; background-color: var(--accent-orange);
+            padding: 8px 15px; border-radius: 12px; gap: 10px; font-weight: 600; color: #121826;
+        }
+
+        .info-list { display: flex; flex-direction: column; gap: 12px; }
+        .info-card {
+            background-color: var(--card-bg);
+            border-radius: var(--border-radius);
+            padding: 15px; display: flex; align-items: center;
+            text-decoration: none; color: inherit; border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .icon-box {
+            width: 45px; height: 45px; border-radius: 12px;
+            display: flex; justify-content: center; align-items: center;
+            margin-right: 15px; font-size: 1.3rem; background-color: rgba(255, 255, 255, 0.05);
+        }
+
+        .info-details .label { font-size: 0.85rem; color: var(--accent-orange); }
+        .info-details .value { font-size: 1.05rem; font-weight: 600; }
+        
+        .call-tag {
+            font-size: 0.7rem;
+            background: rgba(243, 156, 18, 0.2);
+            color: var(--accent-orange);
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+            text-transform: uppercase;
+        }
+
+        .icon-red { color: #ff4d4d; }
+        .icon-blue { color: #4d94ff; }
+        .icon-green { color: #4dff88; }
+        .icon-yellow { color: #ffff66; }
+        .icon-purple { color: #b366ff; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    
+    <!-- ΕΠΙΛΟΓΗ ΓΛΩΣΣΑΣ -->
+    <div class="language-picker">
+        <span class="flag active" onclick="changeLanguage('gr', this)">🇬🇷</span>
+        <span class="flag" onclick="changeLanguage('en', this)">🇬🇧</span>
+        <span class="flag" onclick="changeLanguage('de', this)">🇩🇪</span>
+        <span class="flag" onclick="changeLanguage('fr', this)">🇫🇷</span>
+        <span class="flag" onclick="changeLanguage('it', this)">🇮🇹</span>
+    </div>
+
+    <!-- ΑΡΧΙΚΗ ΣΕΛΙΔΑ -->
+    <section id="home" class="page active">
+        <header>
+            <p class="welcome-text" data-key="welcome">ΚΑΛΩΣ ΗΡΘΑΤΕ ΣΤΟ</p>
+            <h1>Skapani's House</h1>
+            <p class="location-sub" data-key="location_sub">Μέσα Λασίθι, Οροπέδιο Λασιθίου</p>
+        </header>
+
+        <a href="https://maps.app.goo.gl/rW2nhewyYsg3GBgw9" target="_blank" class="full-width-card">
+            <div class="icon-circle">📍</div>
+            <div class="card-info">
+                <h3 data-key="location_title">Τοποθεσία</h3>
+                <p>Google Maps →</p>
+            </div>
+        </a>
+
+        <div class="grid-container">
+            <div class="grid-item" onclick="showPage('wifi')">
+                <div class="small-icon">📶</div><span data-key="menu_wifi">WiFi</span>
+            </div>
+            <div class="grid-item" onclick="showPage('rules')">
+                <div class="small-icon">🏠</div><span data-key="menu_rules">Κανόνες Σπιτιού</span>
+            </div>
+            <div class="grid-item" onclick="showPage('phones')">
+                <div class="small-icon">📞</div><span data-key="menu_phones">Χρήσιμα Τηλέφωνα</span>
+            </div>
+            <div class="grid-item" onclick="showPage('sights')">
+                <div class="small-icon">📍</div><span data-key="menu_sights">Αξιοθέατα</span>
+            </div>
+            <div class="grid-item" onclick="showPage('food')">
+                <div class="small-icon">🍴</div><span data-key="menu_food">Φαγητό & Έξοδος</span>
+            </div>
+            <div class="grid-item" onclick="showPage('contact')">
+                <div class="small-icon">💬</div><span data-key="menu_contact">Επικοινωνία</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- ΚΑΝΟΝΕΣ ΣΠΙΤΙΟΥ -->
+    <section id="rules" class="page">
+        <div class="header-nav">
+            <div class="back-button" onclick="showPage('home')">‹</div>
+            <div class="category-title"><span data-key="rules_title">🏠 Κανόνες Σπιτιού</span></div>
+        </div>
+        <div class="info-list">
+            <div class="info-card">
+                <div class="icon-box icon-green">🔑</div>
+                <div class="info-details"><div class="label" data-key="arrival">Ώρες Άφιξης</div><div class="value">14:00 - 21:00</div></div>
+            </div>
+            <div class="info-card">
+                <div class="icon-box icon-blue">🚪</div>
+                <div class="info-details"><div class="label" data-key="departure">Ώρα Αναχώρησης</div><div class="value" data-key="dep_val">έως 11:00</div></div>
+            </div>
+            <div class="info-card">
+                <div class="icon-box icon-red">🐾</div>
+                <div class="info-details"><div class="label" data-key="pets">Κατοικίδια</div><div class="value" data-key="no_allowed">Δεν επιτρέπονται</div></div>
+            </div>
+            <div class="info-card">
+                <div class="icon-box icon-red">🎉</div>
+                <div class="info-details"><div class="label" data-key="events">Εκδηλώσεις</div><div class="value" data-key="no_parties">Δεν επιτρέπονται πάρτι & εκδηλώσεις</div></div>
+            </div>
+            <div class="info-card">
+                <div class="icon-box icon-red">🚭</div>
+                <div class="info-details"><div class="label" data-key="smoking">Κάπνισμα</div><div class="value" data-key="no_smoking">Δεν επιτρέπεται εντός του χώρου</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ΧΡΗΣΙΜΑ ΤΗΛΕΦΩΝΑ -->
+    <section id="phones" class="page">
+        <div class="header-nav">
+            <div class="back-button" onclick="showPage('home')">‹</div>
+            <div class="category-title"><span data-key="phones_title">📞 Χρήσιμα Τηλέφωνα</span></div>
+        </div>
+        <div class="info-list" id="phoneList">
+            <!-- Περιεχόμενο τηλεφώνων (παραμένει ίδιο, η σήμανση "Κλήση" μεταφράζεται μέσω JS) -->
+        </div>
+    </section>
+
+</div>
+
+<script>
+    const translations = {
+        gr: {
+            welcome: "ΚΑΛΩΣ ΗΡΘΑΤΕ ΣΤΟ",
+            location_sub: "Μέσα Λασίθι, Οροπέδιο Λασιθίου",
+            location_title: "Τοποθεσία",
+            menu_wifi: "WiFi",
+            menu_rules: "Κανόνες Σπιτιού",
+            menu_phones: "Χρήσιμα Τηλέφωνα",
+            menu_sights: "Αξιοθέατα",
+            menu_food: "Φαγητό & Έξοδος",
+            menu_contact: "Επικοινωνία",
+            rules_title: "🏠 Κανόνες Σπιτιού",
+            arrival: "Ώρες Άφιξης",
+            departure: "Ώρα Αναχώρησης",
+            dep_val: "έως 11:00",
+            pets: "Κατοικίδια",
+            events: "Εκδηλώσεις",
+            smoking: "Κάπνισμα",
+            no_allowed: "Δεν επιτρέπονται",
+            no_parties: "Δεν επιτρέπονται πάρτι & εκδηλώσεις",
+            no_smoking: "Δεν επιτρέπεται εντός του χώρου",
+            call: "Κλήση",
+            health_center: "Κέντρο Υγείας Τζερμιάδων",
+            poison_center: "Κέντρο Δηλητηριάσεων",
+            fire: "Πυροσβεστική",
+            police: "Αστυνομία",
+            ambulance: "Ασθενοφόρο",
+            emergency: "Έκτακτη Ανάγκη"
+        },
+        en: {
+            welcome: "WELCOME TO",
+            location_sub: "Mesa Lasithi, Lasithi Plateau",
+            location_title: "Location",
+            menu_wifi: "WiFi",
+            menu_rules: "House Rules",
+            menu_phones: "Useful Phones",
+            menu_sights: "Attractions",
+            menu_food: "Food & Drink",
+            menu_contact: "Contact",
+            rules_title: "🏠 House Rules",
+            arrival: "Arrival Hours",
+            departure: "Departure Time",
+            dep_val: "until 11:00",
+            pets: "Pets",
+            events: "Events",
+            smoking: "Smoking",
+            no_allowed: "Not allowed",
+            no_parties: "Parties & events not allowed",
+            no_smoking: "No smoking indoors",
+            call: "Call",
+            health_center: "Tzermiado Health Center",
+            poison_center: "Poison Control Center",
+            fire: "Fire Brigade",
+            police: "Police",
+            ambulance: "Ambulance",
+            emergency: "Emergency Number"
+        },
+        de: {
+            welcome: "WILLKOMMEN IM",
+            location_sub: "Mesa Lasithi, Lasithi-Hochebene",
+            location_title: "Standort",
+            menu_wifi: "WLAN",
+            menu_rules: "Hausordnung",
+            menu_phones: "Wichtige Nummern",
+            menu_sights: "Sehenswürdigkeiten",
+            menu_food: "Essen & Trinken",
+            menu_contact: "Kontakt",
+            rules_title: "🏠 Hausordnung",
+            arrival: "Ankunftszeiten",
+            departure: "Check-out Zeit",
+            dep_val: "bis 11:00",
+            pets: "Haustiere",
+            events: "Veranstaltungen",
+            smoking: "Rauchen",
+            no_allowed: "Nicht erlaubt",
+            no_parties: "Partys & Events nicht erlaubt",
+            no_smoking: "Rauchen im Haus verboten",
+            call: "Anrufen",
+            health_center: "Gesundheitszentrum Tzermiado",
+            poison_center: "Giftnotruf",
+            fire: "Feuerwehr",
+            police: "Polizei",
+            ambulance: "Krankenwagen",
+            emergency: "Notruf"
+        },
+        fr: {
+            welcome: "BIENVENUE À",
+            location_sub: "Mesa Lasithi, Plateau de Lassithi",
+            location_title: "Emplacement",
+            menu_wifi: "Wi-Fi",
+            menu_rules: "Règlement Intérieur",
+            menu_phones: "Numéros Utiles",
+            menu_sights: "Attractions",
+            menu_food: "Nourriture & Sorties",
+            menu_contact: "Contact",
+            rules_title: "🏠 Règlement",
+            arrival: "Heures d'arrivée",
+            departure: "Heure de départ",
+            dep_val: "jusqu'à 11:00",
+            pets: "Animaux",
+            events: "Événements",
+            smoking: "Tabac",
+            no_allowed: "Non autorisés",
+            no_parties: "Fêtes & événements non autorisés",
+            no_smoking: "Interdiction de fumer à l'intérieur",
+            call: "Appeler",
+            health_center: "Centre de Santé Tzermiado",
+            poison_center: "Centre Antipoison",
+            fire: "Pompiers",
+            police: "Police",
+            ambulance: "Ambulance",
+            emergency: "Numéro d'urgence"
+        },
+        it: {
+            welcome: "BENVENUTI A",
+            location_sub: "Mesa Lasithi, Altopiano di Lasithi",
+            location_title: "Posizione",
+            menu_wifi: "WiFi",
+            menu_rules: "Regole della Casa",
+            menu_phones: "Numeri Utili",
+            menu_sights: "Attrazioni",
+            menu_food: "Cibo e Uscite",
+            menu_contact: "Contatto",
+            rules_title: "🏠 Regole",
+            arrival: "Orario di Arrivo",
+            departure: "Orario di Partenza",
+            dep_val: "entro le 11:00",
+            pets: "Animali",
+            events: "Eventi",
+            smoking: "Fumo",
+            no_allowed: "Non ammessi",
+            no_parties: "Feste ed eventi non ammessi",
+            no_smoking: "Vietato fumare all'interno",
+            call: "Chiama",
+            health_center: "Centro Sanitario Tzermiado",
+            poison_center: "Centro Antiveleni",
+            fire: "Vigili del Fuoco",
+            police: "Polizia",
+            ambulance: "Ambulanza",
+            emergency: "Emergenza"
+        }
+    };
+
+    function changeLanguage(lang, element) {
+        // Ενημέρωση ενεργής σημαίας
+        document.querySelectorAll('.flag').forEach(f => f.classList.remove('active'));
+        element.classList.add('active');
+
+        // Μετάφραση στοιχείων με data-key
+        document.querySelectorAll('[data-key]').forEach(el => {
+            const key = el.getAttribute('data-key');
+            if (translations[lang][key]) {
+                el.innerText = translations[lang][key];
+            }
+        });
+
+        // Επαναδημιουργία λίστας τηλεφώνων (για να μεταφραστούν οι ετικέτες και η λέξη "Κλήση")
+        renderPhones(lang);
+    }
+
+    function renderPhones(lang) {
+        const phones = [
+            { id: "fire", icon: "🔥", color: "icon-red", num: "199" },
+            { id: "police", icon: "🛡️", color: "icon-blue", num: "100" },
+            { id: "ambulance", icon: "🚑", color: "icon-green", num: "166" },
+            { id: "emergency", icon: "⚠️", color: "icon-yellow", num: "112" },
+            { id: "health_center", icon: "🏥", color: "icon-purple", num: "2844340000" },
+            { id: "poison_center", icon: "💀", color: "icon-red", num: "+302107793777" }
+        ];
+
+        const list = document.getElementById('phoneList');
+        if (!list) return;
+        
+        list.innerHTML = phones.map(p => `
+            <a href="tel:${p.num}" class="info-card">
+                <div class="icon-box ${p.color}">${p.icon}</div>
+                <div class="info-details">
+                    <div class="label">${translations[lang][p.id]}</div>
+                    <div class="value">${p.num} <span class="call-tag">${translations[lang].call}</span></div>
+                </div>
+            </a>
+        `).join('');
+    }
+
+    function showPage(pageId) {
+        document.querySelectorAll('.page').forEach(page => page.classList.remove('active'));
+        document.getElementById(pageId).classList.add('active');
+        window.scrollTo(0,0);
+    }
+
+    // Αρχική φόρτωση τηλεφώνων στα Ελληνικά
+    renderPhones('gr');
+</script>
+
+</body>
+</html>
