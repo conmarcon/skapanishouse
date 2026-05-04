@@ -30,10 +30,33 @@
         .container {
             width: 100%;
             max-width: 500px;
-            padding: 20px;
             min-height: 100vh;
+            position: relative;
         }
 
+       /* Βρες αυτό το σημείο στο CSS (πάνω μέρος του αρχείου) */
+.hero-bg {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 350px; 
+    /* Εδώ βάζουμε το όνομα του δικού σου αρχείου */
+    background: linear-gradient(to bottom, rgba(18, 24, 38, 0.2) 0%, rgba(18, 24, 38, 1) 100%), 
+                url('image_9c721c.jpg'); 
+    background-size: cover;
+    background-position: center;
+    opacity: 0.3; 
+    z-index: 0;
+}
+
+        .content-wrapper {
+            position: relative;
+            z-index: 1;
+            padding: 20px;
+        }
+
+        /* --- ΓΛΩΣΣΕΣ --- */
         .language-picker {
             display: flex;
             gap: 12px;
@@ -61,10 +84,10 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        header { margin-bottom: 30px; }
-        .welcome-text { color: var(--accent-orange); font-size: 0.8rem; text-transform: uppercase; font-weight: 600; }
-        h1 { font-size: 2.2rem; font-weight: 600; margin: 5px 0; }
-        .location-sub { color: var(--text-secondary); font-size: 1rem; }
+        header { margin-bottom: 30px; margin-top: 20px; }
+        .welcome-text { color: var(--accent-orange); font-size: 0.8rem; text-transform: uppercase; font-weight: 600; text-shadow: 1px 1px 4px rgba(0,0,0,0.8); }
+        h1 { font-size: 2.2rem; font-weight: 600; margin: 5px 0; text-shadow: 2px 2px 8px rgba(0,0,0,0.9); }
+        .location-sub { color: var(--text-secondary); font-size: 1rem; text-shadow: 1px 1px 4px rgba(0,0,0,0.8); }
 
         .full-width-card {
             background-color: var(--card-bg);
@@ -77,6 +100,7 @@
             cursor: pointer;
             text-decoration: none;
             color: inherit;
+            backdrop-filter: blur(5px); /* Δίνει εφέ θολώματος στο φόντο της κάρτας */
         }
 
         .icon-circle {
@@ -95,8 +119,7 @@
             display: flex; flex-direction: column; gap: 15px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
-            text-decoration: none;
-            color: inherit;
+            backdrop-filter: blur(5px);
         }
 
         .small-icon {
@@ -106,6 +129,7 @@
             display: flex; justify-content: center; align-items: center; font-size: 1.2rem;
         }
 
+        /* --- ΕΣΩΤΕΡΙΚΕΣ ΣΕΛΙΔΕΣ --- */
         .header-nav { display: flex; align-items: center; margin-bottom: 25px; gap: 15px; }
         .back-button {
             width: 40px; height: 40px; background-color: var(--card-bg);
@@ -155,153 +179,138 @@
 <body>
 
 <div class="container">
-    
-    <div class="language-picker">
-        <span class="flag active" onclick="changeLanguage('gr', this)">🇬🇷</span>
-        <span class="flag" onclick="changeLanguage('en', this)">🇬🇧</span>
-        <span class="flag" onclick="changeLanguage('de', this)">🇩🇪</span>
-        <span class="flag" onclick="changeLanguage('fr', this)">🇫🇷</span>
-        <span class="flag" onclick="changeLanguage('it', this)">🇮🇹</span>
+    <!-- Η εικόνα φόντου -->
+    <div class="hero-bg"></div>
+
+    <div class="content-wrapper">
+        
+        <div class="language-picker">
+            <span class="flag active" onclick="changeLanguage('gr', this)">🇬🇷</span>
+            <span class="flag" onclick="changeLanguage('en', this)">🇬🇧</span>
+            <span class="flag" onclick="changeLanguage('de', this)">🇩🇪</span>
+            <span class="flag" onclick="changeLanguage('fr', this)">🇫🇷</span>
+            <span class="flag" onclick="changeLanguage('it', this)">🇮🇹</span>
+        </div>
+
+        <!-- ΑΡΧΙΚΗ ΣΕΛΙΔΑ -->
+        <section id="home" class="page active">
+            <header>
+                <p class="welcome-text" data-key="welcome">ΚΑΛΩΣ ΗΡΘΑΤΕ ΣΤΟ</p>
+                <h1>Skapani's House</h1>
+                <p class="location-sub" data-key="location_sub">Μέσα Λασίθι, Οροπέδιο Λασιθίου</p>
+            </header>
+
+            <a href="https://maps.app.goo.gl/rW2nhewyYsg3GBgw9" target="_blank" class="full-width-card">
+                <div class="icon-circle">📍</div>
+                <div class="card-info">
+                    <h3 data-key="location_title">Τοποθεσία</h3>
+                    <p>Google Maps →</p>
+                </div>
+            </a>
+
+            <div class="grid-container">
+                <div class="grid-item" onclick="showPage('wifi')">
+                    <div class="small-icon">📶</div><span data-key="menu_wifi">WiFi</span>
+                </div>
+                <div class="grid-item" onclick="showPage('rules')">
+                    <div class="small-icon">🏠</div><span data-key="menu_rules">Κανόνες Σπιτιού</span>
+                </div>
+                <div class="grid-item" onclick="showPage('phones')">
+                    <div class="small-icon">📞</div><span data-key="menu_phones">Χρήσιμα Τηλέφωνα</span>
+                </div>
+                <div class="grid-item" onclick="showPage('sights')">
+                    <div class="small-icon">📍</div><span data-key="menu_sights">Αξιοθέατα</span>
+                </div>
+                <div class="grid-item" onclick="showPage('weather')">
+                    <div class="small-icon">🌦️</div><span data-key="menu_weather">Καιρός</span>
+                </div>
+                <div class="grid-item" onclick="showPage('contact')">
+                    <div class="small-icon">💬</div><span data-key="menu_contact">Επικοινωνία</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- (Οι υπόλοιπες σελίδες παραμένουν ίδιες...) -->
+        <section id="weather" class="page">
+            <div class="header-nav">
+                <div class="back-button" onclick="showPage('home')">‹</div>
+                <div class="category-title"><span data-key="menu_weather">🌦️ Καιρός</span></div>
+            </div>
+            <div class="info-list">
+                <a href="https://www.msn.com/el-gr/weather/forecast/in-%CE%9F%CF%81%CE%BF%CF%80%CE%AD%CE%B4%CE%B9%CE%BF-%CE%9B%CE%B1%CF%83%CE%B9%CE%B8%CE%AF%CE%BF%CF%85,%CE%9A%CF%81%CE%AE%CF%84%CE%B7%CF%82?loc=eyJsIjoizp%2FPgc6%2Fz4DOrc60zrnOvyDOm86xz4POuc64zq%2FOv8%2BFIiwiciI6Is6az4HOrs%2BEzrfPgiIsInIyIjoizqDOtc%2BBzrnPhs61z4HOtc65zrHOus6uIM6Vzr3PjM%2BEzrfPhM6xIM6bzrHPg865zrjOr86%2Fz4UiLCJjIjoizpXOu867zqzOtM6xIiwiaSI6IkdSIiwidCI6MTAyLCJnIjoiZWwtZ3IiLCJ4IjoiMjUuNDg5IiwieSI6IjM1LjE5ODYifQ%3D%3D&weadegreetype=C" target="_blank" class="info-card">
+                    <div class="icon-box icon-blue">☀️</div>
+                    <div class="info-details">
+                        <div class="label" data-key="weather_label">Πρόγνωση καιρού περιοχής</div>
+                        <div class="value">MSN Weather <span class="tag" data-key="link">Link</span></div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <section id="sights" class="page">
+            <div class="header-nav"><div class="back-button" onclick="showPage('home')">‹</div><div class="category-title"><span data-key="menu_sights">📍 Αξιοθέατα</span></div></div>
+            <div class="info-list" id="sightsList"></div>
+        </section>
+
+        <section id="rules" class="page">
+            <div class="header-nav"><div class="back-button" onclick="showPage('home')">‹</div><div class="category-title"><span data-key="menu_rules">🏠 Κανόνες Σπιτιού</span></div></div>
+            <div class="info-list">
+                <div class="info-card">
+                    <div class="icon-box icon-green">🔑</div>
+                    <div class="info-details"><div class="label" data-key="arrival">Ώρες Άφιξης</div><div class="value">14:00 - 21:00</div></div>
+                </div>
+                <div class="info-card">
+                    <div class="icon-box icon-blue">🚪</div>
+                    <div class="info-details"><div class="label" data-key="departure">Ώρα Αναχώρησης</div><div class="value" data-key="dep_val">έως 11:00</div></div>
+                </div>
+                <div class="info-card">
+                    <div class="icon-box icon-red">🐾</div>
+                    <div class="info-details"><div class="label" data-key="pets">Κατοικίδια</div><div class="value" data-key="no_allowed">Δεν επιτρέπονται</div></div>
+                </div>
+                <div class="info-card">
+                    <div class="icon-box icon-red">🎉</div>
+                    <div class="info-details"><div class="label" data-key="events">Εκδηλώσεις</div><div class="value" data-key="no_parties">Δεν επιτρέπονται πάρτι & εκδηλώσεις</div></div>
+                </div>
+                <div class="info-card">
+                    <div class="icon-box icon-red">🚭</div>
+                    <div class="info-details"><div class="label" data-key="smoking">Κάπνισμα</div><div class="value" data-key="no_smoking">Δεν επιτρέπεται εντός του χώρου</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="phones" class="page">
+            <div class="header-nav"><div class="back-button" onclick="showPage('home')">‹</div><div class="category-title"><span data-key="menu_phones">📞 Χρήσιμα Τηλέφωνα</span></div></div>
+            <div class="info-list" id="phoneList"></div>
+        </section>
+
+        <section id="wifi" class="page">
+            <div class="header-nav"><div class="back-button" onclick="showPage('home')">‹</div><div class="category-title"><span>📶 WiFi</span></div></div>
+            <div class="info-list">
+                <div class="info-card">
+                    <div class="icon-box">🌐</div>
+                    <div class="info-details"><div class="label" data-key="network">Δίκτυο</div><div class="value">Skapanis_House_WiFi</div></div>
+                </div>
+                <div class="info-card">
+                    <div class="icon-box icon-yellow">🔑</div>
+                    <div class="info-details"><div class="label" data-key="password">Κωδικός</div><div class="value">lasithi2026</div></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="contact" class="page">
+            <div class="header-nav"><div class="back-button" onclick="showPage('home')">‹</div><div class="category-title"><span data-key="menu_contact">💬 Επικοινωνία</span></div></div>
+            <div class="info-list">
+                <a href="tel:+306978438243" class="info-card">
+                    <div class="icon-box icon-blue">📞</div>
+                    <div class="info-details">
+                        <div class="label" data-key="contact_label">Τηλέφωνο Επικοινωνίας</div>
+                        <div class="value">+30 697 843 8243 <span class="tag" data-key="call">Κλήση</span></div>
+                    </div>
+                </a>
+            </div>
+        </section>
+
     </div>
-
-    <!-- ΑΡΧΙΚΗ ΣΕΛΙΔΑ -->
-    <section id="home" class="page active">
-        <header>
-            <p class="welcome-text" data-key="welcome">ΚΑΛΩΣ ΗΡΘΑΤΕ ΣΤΟ</p>
-            <h1>Skapani's House</h1>
-            <p class="location-sub" data-key="location_sub">Μέσα Λασίθι, Οροπέδιο Λασιθίου</p>
-        </header>
-
-        <a href="https://maps.app.goo.gl/rW2nhewyYsg3GBgw9" target="_blank" class="full-width-card">
-            <div class="icon-circle">📍</div>
-            <div class="card-info">
-                <h3 data-key="location_title">Τοποθεσία</h3>
-                <p>Google Maps →</p>
-            </div>
-        </a>
-
-        <div class="grid-container">
-            <div class="grid-item" onclick="showPage('wifi')">
-                <div class="small-icon">📶</div><span data-key="menu_wifi">WiFi</span>
-            </div>
-            <div class="grid-item" onclick="showPage('rules')">
-                <div class="small-icon">🏠</div><span data-key="menu_rules">Κανόνες Σπιτιού</span>
-            </div>
-            <div class="grid-item" onclick="showPage('phones')">
-                <div class="small-icon">📞</div><span data-key="menu_phones">Χρήσιμα Τηλέφωνα</span>
-            </div>
-            <div class="grid-item" onclick="showPage('sights')">
-                <div class="small-icon">📍</div><span data-key="menu_sights">Αξιοθέατα</span>
-            </div>
-            <div class="grid-item" onclick="showPage('weather')">
-                <div class="small-icon">🌦️</div><span data-key="menu_weather">Καιρός</span>
-            </div>
-            <div class="grid-item" onclick="showPage('contact')">
-                <div class="small-icon">💬</div><span data-key="menu_contact">Επικοινωνία</span>
-            </div>
-        </div>
-    </section>
-
-    <!-- ΚΑΙΡΟΣ -->
-    <section id="weather" class="page">
-        <div class="header-nav">
-            <div class="back-button" onclick="showPage('home')">‹</div>
-            <div class="category-title"><span data-key="menu_weather">🌦️ Καιρός</span></div>
-        </div>
-        <div class="info-list">
-            <a href="https://www.msn.com/el-gr/weather/forecast/in-%CE%9F%CF%81%CE%BF%CF%80%CE%AD%CE%B4%CE%B9%CE%BF-%CE%9B%CE%B1%CF%83%CE%B9%CE%B8%CE%AF%CE%BF%CF%85,%CE%9A%CF%81%CE%AE%CF%84%CE%B7%CF%82?loc=eyJsIjoizp%2FPgc6%2Fz4DOrc60zrnOvyDOm86xz4POuc64zq%2FOv8%2BFIiwiciI6Is6az4HOrs%2BEzrfPgiIsInIyIjoizqDOtc%2BBzrnPhs61z4HOtc65zrHOus6uIM6Vzr3PjM%2BEzrfPhM6xIM6bzrHPg865zrjOr86%2Fz4UiLCJjIjoizpXOu867zqzOtM6xIiwiaSI6IkdSIiwidCI6MTAyLCJnIjoiZWwtZ3IiLCJ4IjoiMjUuNDg5IiwieSI6IjM1LjE5ODYifQ%3D%3D&weadegreetype=C" target="_blank" class="info-card">
-                <div class="icon-box icon-blue">☀️</div>
-                <div class="info-details">
-                    <div class="label" data-key="weather_label">Πρόγνωση καιρού περιοχής</div>
-                    <div class="value">MSN Weather <span class="tag" data-key="link">Link</span></div>
-                </div>
-            </a>
-        </div>
-    </section>
-
-    <!-- ΑΞΙΟΘΕΑΤΑ -->
-    <section id="sights" class="page">
-        <div class="header-nav">
-            <div class="back-button" onclick="showPage('home')">‹</div>
-            <div class="category-title"><span data-key="menu_sights">📍 Αξιοθέατα</span></div>
-        </div>
-        <div class="info-list" id="sightsList"></div>
-    </section>
-
-    <!-- ΚΑΝΟΝΕΣ ΣΠΙΤΙΟΥ -->
-    <section id="rules" class="page">
-        <div class="header-nav">
-            <div class="back-button" onclick="showPage('home')">‹</div>
-            <div class="category-title"><span data-key="menu_rules">🏠 Κανόνες Σπιτιού</span></div>
-        </div>
-        <div class="info-list">
-            <div class="info-card">
-                <div class="icon-box icon-green">🔑</div>
-                <div class="info-details"><div class="label" data-key="arrival">Ώρες Άφιξης</div><div class="value">14:00 - 21:00</div></div>
-            </div>
-            <div class="info-card">
-                <div class="icon-box icon-blue">🚪</div>
-                <div class="info-details"><div class="label" data-key="departure">Ώρα Αναχώρησης</div><div class="value" data-key="dep_val">έως 11:00</div></div>
-            </div>
-            <div class="info-card">
-                <div class="icon-box icon-red">🐾</div>
-                <div class="info-details"><div class="label" data-key="pets">Κατοικίδια</div><div class="value" data-key="no_allowed">Δεν επιτρέπονται</div></div>
-            </div>
-            <div class="info-card">
-                <div class="icon-box icon-red">🎉</div>
-                <div class="info-details"><div class="label" data-key="events">Εκδηλώσεις</div><div class="value" data-key="no_parties">Δεν επιτρέπονται πάρτι & εκδηλώσεις</div></div>
-            </div>
-            <div class="info-card">
-                <div class="icon-box icon-red">🚭</div>
-                <div class="info-details"><div class="label" data-key="smoking">Κάπνισμα</div><div class="value" data-key="no_smoking">Δεν επιτρέπεται εντός του χώρου</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ΧΡΗΣΙΜΑ ΤΗΛΕΦΩΝΑ -->
-    <section id="phones" class="page">
-        <div class="header-nav">
-            <div class="back-button" onclick="showPage('home')">‹</div>
-            <div class="category-title"><span data-key="menu_phones">📞 Χρήσιμα Τηλέφωνα</span></div>
-        </div>
-        <div class="info-list" id="phoneList"></div>
-    </section>
-
-    <!-- WIFI -->
-    <section id="wifi" class="page">
-        <div class="header-nav">
-            <div class="back-button" onclick="showPage('home')">‹</div>
-            <div class="category-title"><span>📶 WiFi</span></div>
-        </div>
-        <div class="info-list">
-            <div class="info-card">
-                <div class="icon-box">🌐</div>
-                <div class="info-details"><div class="label" data-key="network">Δίκτυο</div><div class="value">Skapanis_House_WiFi</div></div>
-            </div>
-            <div class="info-card">
-                <div class="icon-box icon-yellow">🔑</div>
-                <div class="info-details"><div class="label" data-key="password">Κωδικός</div><div class="value">lasithi2026</div></div>
-            </div>
-        </div>
-    </section>
-
-    <!-- ΕΠΙΚΟΙΝΩΝΙΑ -->
-    <section id="contact" class="page">
-        <div class="header-nav">
-            <div class="back-button" onclick="showPage('home')">‹</div>
-            <div class="category-title"><span data-key="menu_contact">💬 Επικοινωνία</span></div>
-        </div>
-        <div class="info-list">
-            <a href="tel:+306978438243" class="info-card">
-                <div class="icon-box icon-blue">📞</div>
-                <div class="info-details">
-                    <div class="label" data-key="contact_label">Τηλέφωνο Επικοινωνίας</div>
-                    <div class="value">+30 697 843 8243 <span class="tag" data-key="call">Κλήση</span></div>
-                </div>
-            </a>
-        </div>
-    </section>
-
 </div>
 
 <script>
