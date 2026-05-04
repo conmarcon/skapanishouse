@@ -34,7 +34,6 @@
             min-height: 100vh;
         }
 
-        /* --- ΓΛΩΣΣΕΣ --- */
         .language-picker {
             display: flex;
             gap: 12px;
@@ -62,7 +61,6 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- ΑΡΧΙΚΗ ΣΕΛΙΔΑ --- */
         header { margin-bottom: 30px; }
         .welcome-text { color: var(--accent-orange); font-size: 0.8rem; text-transform: uppercase; font-weight: 600; }
         h1 { font-size: 2.2rem; font-weight: 600; margin: 5px 0; }
@@ -97,6 +95,8 @@
             display: flex; flex-direction: column; gap: 15px;
             border: 1px solid rgba(255, 255, 255, 0.05);
             cursor: pointer;
+            text-decoration: none;
+            color: inherit;
         }
 
         .small-icon {
@@ -106,7 +106,6 @@
             display: flex; justify-content: center; align-items: center; font-size: 1.2rem;
         }
 
-        /* --- ΣΤΥΛ ΕΣΩΤΕΡΙΚΩΝ ΣΕΛΙΔΩΝ --- */
         .header-nav { display: flex; align-items: center; margin-bottom: 25px; gap: 15px; }
         .back-button {
             width: 40px; height: 40px; background-color: var(--card-bg);
@@ -194,12 +193,29 @@
             <div class="grid-item" onclick="showPage('sights')">
                 <div class="small-icon">📍</div><span data-key="menu_sights">Αξιοθέατα</span>
             </div>
-            <div class="grid-item" onclick="showPage('food')">
-                <div class="small-icon">🍴</div><span data-key="menu_food">Φαγητό & Έξοδος</span>
+            <div class="grid-item" onclick="showPage('weather')">
+                <div class="small-icon">🌦️</div><span data-key="menu_weather">Καιρός</span>
             </div>
             <div class="grid-item" onclick="showPage('contact')">
                 <div class="small-icon">💬</div><span data-key="menu_contact">Επικοινωνία</span>
             </div>
+        </div>
+    </section>
+
+    <!-- ΚΑΙΡΟΣ -->
+    <section id="weather" class="page">
+        <div class="header-nav">
+            <div class="back-button" onclick="showPage('home')">‹</div>
+            <div class="category-title"><span data-key="menu_weather">🌦️ Καιρός</span></div>
+        </div>
+        <div class="info-list">
+            <a href="https://www.msn.com/el-gr/weather/forecast/in-%CE%9F%CF%81%CE%BF%CF%80%CE%AD%CE%B4%CE%B9%CE%BF-%CE%9B%CE%B1%CF%83%CE%B9%CE%B8%CE%AF%CE%BF%CF%85,%CE%9A%CF%81%CE%AE%CF%84%CE%B7%CF%82?loc=eyJsIjoizp%2FPgc6%2Fz4DOrc60zrnOvyDOm86xz4POuc64zq%2FOv8%2BFIiwiciI6Is6az4HOrs%2BEzrfPgiIsInIyIjoizqDOtc%2BBzrnPhs61z4HOtc65zrHOus6uIM6Vzr3PjM%2BEzrfPhM6xIM6bzrHPg865zrjOr86%2Fz4UiLCJjIjoizpXOu867zqzOtM6xIiwiaSI6IkdSIiwidCI6MTAyLCJnIjoiZWwtZ3IiLCJ4IjoiMjUuNDg5IiwieSI6IjM1LjE5ODYifQ%3D%3D&weadegreetype=C" target="_blank" class="info-card">
+                <div class="icon-box icon-blue">☀️</div>
+                <div class="info-details">
+                    <div class="label" data-key="weather_label">Πρόγνωση καιρού περιοχής</div>
+                    <div class="value">MSN Weather <span class="tag" data-key="link">Link</span></div>
+                </div>
+            </a>
         </div>
     </section>
 
@@ -286,57 +302,52 @@
         </div>
     </section>
 
-    <section id="food" class="page">
-        <div class="header-nav"><div class="back-button" onclick="showPage('home')">‹</div><div class="category-title"><span data-key="menu_food">🍴 Φαγητό & Έξοδος</span></div></div>
-        <div class="info-list"><div class="info-card" data-key="coming_soon">Σύντομα διαθέσιμο...</div></div>
-    </section>
-
 </div>
 
 <script>
     const translations = {
         gr: {
             welcome: "ΚΑΛΩΣ ΗΡΘΑΤΕ ΣΤΟ", location_sub: "Μέσα Λασίθι, Οροπέδιο Λασιθίου", location_title: "Τοποθεσία",
-            menu_wifi: "WiFi", menu_rules: "Κανόνες Σπιτιού", menu_phones: "Χρήσιμα Τηλέφωνα", menu_sights: "Αξιοθέατα", menu_food: "Φαγητό & Έξοδος", menu_contact: "Επικοινωνία",
+            menu_wifi: "WiFi", menu_rules: "Κανόνες Σπιτιού", menu_phones: "Χρήσιμα Τηλέφωνα", menu_sights: "Αξιοθέατα", menu_weather: "Καιρός", menu_contact: "Επικοινωνία",
             arrival: "Ώρες Άφιξης", departure: "Ώρα Αναχώρησης", dep_val: "έως 11:00", pets: "Κατοικίδια", events: "Εκδηλώσεις", smoking: "Κάπνισμα",
             no_allowed: "Δεν επιτρέπονται", no_parties: "Δεν επιτρέπονται πάρτι & εκδηλώσεις", no_smoking: "Δεν επιτρέπεται εντός του χώρου",
-            call: "Κλήση", maps: "Χάρτης", network: "Δίκτυο", password: "Κωδικός", contact_label: "Τηλέφωνο Επικοινωνίας", coming_soon: "Σύντομα διαθέσιμο...",
+            call: "Κλήση", maps: "Χάρτης", link: "Λίνκ", network: "Δίκτυο", password: "Κωδικός", contact_label: "Τηλέφωνο Επικοινωνίας", weather_label: "Πρόγνωση καιρού περιοχής",
             fire: "Πυροσβεστική", police: "Αστυνομία", ambulance: "Ασθενοφόρο", emergency: "Έκτακτη Ανάγκη", health_center: "Κ.Υ. Τζερμιάδων", poison_center: "Κέντρο Δηλητηριάσεων",
             sight1: "Σπήλαιο Δικταίον Άντρον", sight2: "Σπήλαιο Κρόνιο", sight3: "Νεραιδοκόλυμπος", sight4: "Ι. Μ. Κρουσταλένιας", sight5: "Ι. Μ. Βιδιανής", sight6: "Λαογραφικό Μουσείο"
         },
         en: {
             welcome: "WELCOME TO", location_sub: "Mesa Lasithi, Lasithi Plateau", location_title: "Location",
-            menu_wifi: "WiFi", menu_rules: "House Rules", menu_phones: "Useful Phones", menu_sights: "Attractions", menu_food: "Food & Drink", menu_contact: "Contact",
+            menu_wifi: "WiFi", menu_rules: "House Rules", menu_phones: "Useful Phones", menu_sights: "Attractions", menu_weather: "Weather", menu_contact: "Contact",
             arrival: "Arrival", departure: "Departure", dep_val: "until 11:00", pets: "Pets", events: "Events", smoking: "Smoking",
             no_allowed: "Not allowed", no_parties: "No parties & events", no_smoking: "No smoking indoors",
-            call: "Call", maps: "Map", network: "Network", password: "Password", contact_label: "Contact Phone", coming_soon: "Coming soon...",
+            call: "Call", maps: "Map", link: "Link", network: "Network", password: "Password", contact_label: "Contact Phone", weather_label: "Local weather forecast",
             fire: "Fire Brigade", police: "Police", ambulance: "Ambulance", emergency: "Emergency", health_center: "Health Center", poison_center: "Poison Center",
             sight1: "Psychro Cave (Diktaion)", sight2: "Kronion Cave", sight3: "Neraidokolympos", sight4: "Kroustalenia Monastery", sight5: "Vidianis Monastery", sight6: "Folklore Museum"
         },
         de: {
             welcome: "WILLKOMMEN IM", location_sub: "Mesa Lasithi, Lasithi-Hochebene", location_title: "Standort",
-            menu_wifi: "WLAN", menu_rules: "Hausordnung", menu_phones: "Wichtige Nummern", menu_sights: "Sehenswürdigkeiten", menu_food: "Essen & Trinken", menu_contact: "Kontakt",
+            menu_wifi: "WLAN", menu_rules: "Hausordnung", menu_phones: "Wichtige Nummern", menu_sights: "Sehenswürdigkeiten", menu_weather: "Wetter", menu_contact: "Kontakt",
             arrival: "Ankunft", departure: "Abreise", dep_val: "bis 11:00", pets: "Haustiere", events: "Veranstaltungen", smoking: "Rauchen",
             no_allowed: "Nicht erlaubt", no_parties: "Keine Partys & Events", no_smoking: "Rauchen verboten",
-            call: "Anrufen", maps: "Karte", network: "Netz", password: "Passwort", contact_label: "Kontakt", coming_soon: "Demnächst...",
+            call: "Anrufen", maps: "Karte", link: "Link", network: "Netz", password: "Passwort", contact_label: "Kontakt", weather_label: "Lokale Wettervorhersage",
             fire: "Feuerwehr", police: "Polizei", ambulance: "Krankenwagen", emergency: "Notruf", health_center: "Gesundheitszentrum", poison_center: "Giftnotruf",
             sight1: "Diktaion-Höhle", sight2: "Kronion-Höhle", sight3: "Neraidokolympos", sight4: "Kloster Kroustalenia", sight5: "Kloster Vidianis", sight6: "Folklore-Museum"
         },
         fr: {
             welcome: "BIENVENUE À", location_sub: "Mesa Lasithi, Plateau de Lassithi", location_title: "Emplacement",
-            menu_wifi: "Wi-Fi", menu_rules: "Règlement", menu_phones: "Numéros Utiles", menu_sights: "Attractions", menu_food: "Nourriture", menu_contact: "Contact",
+            menu_wifi: "Wi-Fi", menu_rules: "Règlement", menu_phones: "Numéros Utiles", menu_sights: "Attractions", menu_weather: "Météo", menu_contact: "Contact",
             arrival: "Arrivée", departure: "Départ", dep_val: "jusqu'à 11:00", pets: "Animaux", events: "Événements", smoking: "Tabac",
             no_allowed: "Non autorisés", no_parties: "Pas de fêtes", no_smoking: "Interdit de fumer",
-            call: "Appeler", maps: "Carte", network: "Réseau", password: "Code", contact_label: "Contact", coming_soon: "Bientôt...",
+            call: "Appeler", maps: "Carte", link: "Lien", network: "Réseau", password: "Code", contact_label: "Contact", weather_label: "Prévisions météo locales",
             fire: "Pompiers", police: "Police", ambulance: "Ambulance", emergency: "Urgence", health_center: "Centre de Santé", poison_center: "Centre Antipoison",
             sight1: "Grotte de Psychro", sight2: "Grotte de Kronion", sight3: "Neraidokolympos", sight4: "Monastère Kroustalenia", sight5: "Monastère Vidianis", sight6: "Musée du Folklore"
         },
         it: {
             welcome: "BENVENUTI A", location_sub: "Mesa Lasithi, Altopiano di Lasithi", location_title: "Posizione",
-            menu_wifi: "WiFi", menu_rules: "Regole", menu_phones: "Numeri Utili", menu_sights: "Attrazioni", menu_food: "Cibo", menu_contact: "Contatto",
+            menu_wifi: "WiFi", menu_rules: "Regole", menu_phones: "Numeri Utili", menu_sights: "Attrazioni", menu_weather: "Meteo", menu_contact: "Contatto",
             arrival: "Arrivo", departure: "Partenza", dep_val: "entro le 11:00", pets: "Animali", events: "Eventi", smoking: "Fumo",
             no_allowed: "Non ammessi", no_parties: "No feste", no_smoking: "Vietato fumare",
-            call: "Chiama", maps: "Mappa", network: "Rete", password: "Code", contact_label: "Contatto", coming_soon: "Prossimamente...",
+            call: "Chiama", maps: "Mappa", link: "Link", network: "Rete", password: "Code", contact_label: "Contatto", weather_label: "Previsioni meteo locali",
             fire: "Vigili del Fuoco", police: "Polizia", ambulance: "Ambulanza", emergency: "Emergenza", health_center: "Centro Sanitario", poison_center: "Centro Antiveleni",
             sight1: "Grotta di Psychro", sight2: "Grotta di Kronion", sight3: "Neraidokolympos", sight4: "Monastero Kroustalenia", sight5: "Monastero Vidianis", sight6: "Museo del Folklore"
         }
