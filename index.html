@@ -34,7 +34,7 @@
             min-height: 100vh;
         }
 
-        /* --- ΓΛΩΣΣΕΣ (Σημαίες) --- */
+        /* --- ΓΛΩΣΣΕΣ --- */
         .language-picker {
             display: flex;
             gap: 12px;
@@ -45,12 +45,12 @@
         .flag {
             font-size: 1.5rem;
             cursor: pointer;
-            filter: grayscale(0.4);
+            filter: grayscale(0.5);
             transition: transform 0.2s, filter 0.2s;
         }
 
-        .flag:hover, .flag.active {
-            transform: scale(1.2);
+        .flag.active {
+            transform: scale(1.25);
             filter: grayscale(0);
         }
 
@@ -135,14 +135,15 @@
         .info-details .label { font-size: 0.85rem; color: var(--accent-orange); }
         .info-details .value { font-size: 1.05rem; font-weight: 600; }
         
-        .call-tag {
-            font-size: 0.7rem;
+        .tag {
+            font-size: 0.65rem;
             background: rgba(243, 156, 18, 0.2);
             color: var(--accent-orange);
             padding: 2px 6px;
             border-radius: 4px;
             margin-left: 8px;
             text-transform: uppercase;
+            font-weight: 600;
         }
 
         .icon-red { color: #ff4d4d; }
@@ -156,7 +157,6 @@
 
 <div class="container">
     
-    <!-- ΕΠΙΛΟΓΗ ΓΛΩΣΣΑΣ -->
     <div class="language-picker">
         <span class="flag active" onclick="changeLanguage('gr', this)">🇬🇷</span>
         <span class="flag" onclick="changeLanguage('en', this)">🇬🇧</span>
@@ -203,11 +203,20 @@
         </div>
     </section>
 
+    <!-- ΑΞΙΟΘΕΑΤΑ -->
+    <section id="sights" class="page">
+        <div class="header-nav">
+            <div class="back-button" onclick="showPage('home')">‹</div>
+            <div class="category-title"><span data-key="menu_sights">📍 Αξιοθέατα</span></div>
+        </div>
+        <div class="info-list" id="sightsList"></div>
+    </section>
+
     <!-- ΚΑΝΟΝΕΣ ΣΠΙΤΙΟΥ -->
     <section id="rules" class="page">
         <div class="header-nav">
             <div class="back-button" onclick="showPage('home')">‹</div>
-            <div class="category-title"><span data-key="rules_title">🏠 Κανόνες Σπιτιού</span></div>
+            <div class="category-title"><span data-key="menu_rules">🏠 Κανόνες Σπιτιού</span></div>
         </div>
         <div class="info-list">
             <div class="info-card">
@@ -237,11 +246,49 @@
     <section id="phones" class="page">
         <div class="header-nav">
             <div class="back-button" onclick="showPage('home')">‹</div>
-            <div class="category-title"><span data-key="phones_title">📞 Χρήσιμα Τηλέφωνα</span></div>
+            <div class="category-title"><span data-key="menu_phones">📞 Χρήσιμα Τηλέφωνα</span></div>
         </div>
-        <div class="info-list" id="phoneList">
-            <!-- Περιεχόμενο τηλεφώνων (παραμένει ίδιο, η σήμανση "Κλήση" μεταφράζεται μέσω JS) -->
+        <div class="info-list" id="phoneList"></div>
+    </section>
+
+    <!-- WIFI -->
+    <section id="wifi" class="page">
+        <div class="header-nav">
+            <div class="back-button" onclick="showPage('home')">‹</div>
+            <div class="category-title"><span>📶 WiFi</span></div>
         </div>
+        <div class="info-list">
+            <div class="info-card">
+                <div class="icon-box">🌐</div>
+                <div class="info-details"><div class="label" data-key="network">Δίκτυο</div><div class="value">Skapanis_House_WiFi</div></div>
+            </div>
+            <div class="info-card">
+                <div class="icon-box icon-yellow">🔑</div>
+                <div class="info-details"><div class="label" data-key="password">Κωδικός</div><div class="value">lasithi2026</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ΕΠΙΚΟΙΝΩΝΙΑ -->
+    <section id="contact" class="page">
+        <div class="header-nav">
+            <div class="back-button" onclick="showPage('home')">‹</div>
+            <div class="category-title"><span data-key="menu_contact">💬 Επικοινωνία</span></div>
+        </div>
+        <div class="info-list">
+            <a href="tel:+306978438243" class="info-card">
+                <div class="icon-box icon-blue">📞</div>
+                <div class="info-details">
+                    <div class="label" data-key="contact_label">Τηλέφωνο Επικοινωνίας</div>
+                    <div class="value">+30 697 843 8243 <span class="tag" data-key="call">Κλήση</span></div>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section id="food" class="page">
+        <div class="header-nav"><div class="back-button" onclick="showPage('home')">‹</div><div class="category-title"><span data-key="menu_food">🍴 Φαγητό & Έξοδος</span></div></div>
+        <div class="info-list"><div class="info-card" data-key="coming_soon">Σύντομα διαθέσιμο...</div></div>
     </section>
 
 </div>
@@ -249,162 +296,61 @@
 <script>
     const translations = {
         gr: {
-            welcome: "ΚΑΛΩΣ ΗΡΘΑΤΕ ΣΤΟ",
-            location_sub: "Μέσα Λασίθι, Οροπέδιο Λασιθίου",
-            location_title: "Τοποθεσία",
-            menu_wifi: "WiFi",
-            menu_rules: "Κανόνες Σπιτιού",
-            menu_phones: "Χρήσιμα Τηλέφωνα",
-            menu_sights: "Αξιοθέατα",
-            menu_food: "Φαγητό & Έξοδος",
-            menu_contact: "Επικοινωνία",
-            rules_title: "🏠 Κανόνες Σπιτιού",
-            arrival: "Ώρες Άφιξης",
-            departure: "Ώρα Αναχώρησης",
-            dep_val: "έως 11:00",
-            pets: "Κατοικίδια",
-            events: "Εκδηλώσεις",
-            smoking: "Κάπνισμα",
-            no_allowed: "Δεν επιτρέπονται",
-            no_parties: "Δεν επιτρέπονται πάρτι & εκδηλώσεις",
-            no_smoking: "Δεν επιτρέπεται εντός του χώρου",
-            call: "Κλήση",
-            health_center: "Κέντρο Υγείας Τζερμιάδων",
-            poison_center: "Κέντρο Δηλητηριάσεων",
-            fire: "Πυροσβεστική",
-            police: "Αστυνομία",
-            ambulance: "Ασθενοφόρο",
-            emergency: "Έκτακτη Ανάγκη"
+            welcome: "ΚΑΛΩΣ ΗΡΘΑΤΕ ΣΤΟ", location_sub: "Μέσα Λασίθι, Οροπέδιο Λασιθίου", location_title: "Τοποθεσία",
+            menu_wifi: "WiFi", menu_rules: "Κανόνες Σπιτιού", menu_phones: "Χρήσιμα Τηλέφωνα", menu_sights: "Αξιοθέατα", menu_food: "Φαγητό & Έξοδος", menu_contact: "Επικοινωνία",
+            arrival: "Ώρες Άφιξης", departure: "Ώρα Αναχώρησης", dep_val: "έως 11:00", pets: "Κατοικίδια", events: "Εκδηλώσεις", smoking: "Κάπνισμα",
+            no_allowed: "Δεν επιτρέπονται", no_parties: "Δεν επιτρέπονται πάρτι & εκδηλώσεις", no_smoking: "Δεν επιτρέπεται εντός του χώρου",
+            call: "Κλήση", maps: "Χάρτης", network: "Δίκτυο", password: "Κωδικός", contact_label: "Τηλέφωνο Επικοινωνίας", coming_soon: "Σύντομα διαθέσιμο...",
+            fire: "Πυροσβεστική", police: "Αστυνομία", ambulance: "Ασθενοφόρο", emergency: "Έκτακτη Ανάγκη", health_center: "Κ.Υ. Τζερμιάδων", poison_center: "Κέντρο Δηλητηριάσεων",
+            sight1: "Σπήλαιο Δικταίον Άντρον", sight2: "Σπήλαιο Κρόνιο", sight3: "Νεραιδοκόλυμπος", sight4: "Ι. Μ. Κρουσταλένιας", sight5: "Ι. Μ. Βιδιανής", sight6: "Λαογραφικό Μουσείο"
         },
         en: {
-            welcome: "WELCOME TO",
-            location_sub: "Mesa Lasithi, Lasithi Plateau",
-            location_title: "Location",
-            menu_wifi: "WiFi",
-            menu_rules: "House Rules",
-            menu_phones: "Useful Phones",
-            menu_sights: "Attractions",
-            menu_food: "Food & Drink",
-            menu_contact: "Contact",
-            rules_title: "🏠 House Rules",
-            arrival: "Arrival Hours",
-            departure: "Departure Time",
-            dep_val: "until 11:00",
-            pets: "Pets",
-            events: "Events",
-            smoking: "Smoking",
-            no_allowed: "Not allowed",
-            no_parties: "Parties & events not allowed",
-            no_smoking: "No smoking indoors",
-            call: "Call",
-            health_center: "Tzermiado Health Center",
-            poison_center: "Poison Control Center",
-            fire: "Fire Brigade",
-            police: "Police",
-            ambulance: "Ambulance",
-            emergency: "Emergency Number"
+            welcome: "WELCOME TO", location_sub: "Mesa Lasithi, Lasithi Plateau", location_title: "Location",
+            menu_wifi: "WiFi", menu_rules: "House Rules", menu_phones: "Useful Phones", menu_sights: "Attractions", menu_food: "Food & Drink", menu_contact: "Contact",
+            arrival: "Arrival", departure: "Departure", dep_val: "until 11:00", pets: "Pets", events: "Events", smoking: "Smoking",
+            no_allowed: "Not allowed", no_parties: "No parties & events", no_smoking: "No smoking indoors",
+            call: "Call", maps: "Map", network: "Network", password: "Password", contact_label: "Contact Phone", coming_soon: "Coming soon...",
+            fire: "Fire Brigade", police: "Police", ambulance: "Ambulance", emergency: "Emergency", health_center: "Health Center", poison_center: "Poison Center",
+            sight1: "Psychro Cave (Diktaion)", sight2: "Kronion Cave", sight3: "Neraidokolympos", sight4: "Kroustalenia Monastery", sight5: "Vidianis Monastery", sight6: "Folklore Museum"
         },
         de: {
-            welcome: "WILLKOMMEN IM",
-            location_sub: "Mesa Lasithi, Lasithi-Hochebene",
-            location_title: "Standort",
-            menu_wifi: "WLAN",
-            menu_rules: "Hausordnung",
-            menu_phones: "Wichtige Nummern",
-            menu_sights: "Sehenswürdigkeiten",
-            menu_food: "Essen & Trinken",
-            menu_contact: "Kontakt",
-            rules_title: "🏠 Hausordnung",
-            arrival: "Ankunftszeiten",
-            departure: "Check-out Zeit",
-            dep_val: "bis 11:00",
-            pets: "Haustiere",
-            events: "Veranstaltungen",
-            smoking: "Rauchen",
-            no_allowed: "Nicht erlaubt",
-            no_parties: "Partys & Events nicht erlaubt",
-            no_smoking: "Rauchen im Haus verboten",
-            call: "Anrufen",
-            health_center: "Gesundheitszentrum Tzermiado",
-            poison_center: "Giftnotruf",
-            fire: "Feuerwehr",
-            police: "Polizei",
-            ambulance: "Krankenwagen",
-            emergency: "Notruf"
+            welcome: "WILLKOMMEN IM", location_sub: "Mesa Lasithi, Lasithi-Hochebene", location_title: "Standort",
+            menu_wifi: "WLAN", menu_rules: "Hausordnung", menu_phones: "Wichtige Nummern", menu_sights: "Sehenswürdigkeiten", menu_food: "Essen & Trinken", menu_contact: "Kontakt",
+            arrival: "Ankunft", departure: "Abreise", dep_val: "bis 11:00", pets: "Haustiere", events: "Veranstaltungen", smoking: "Rauchen",
+            no_allowed: "Nicht erlaubt", no_parties: "Keine Partys & Events", no_smoking: "Rauchen verboten",
+            call: "Anrufen", maps: "Karte", network: "Netz", password: "Passwort", contact_label: "Kontakt", coming_soon: "Demnächst...",
+            fire: "Feuerwehr", police: "Polizei", ambulance: "Krankenwagen", emergency: "Notruf", health_center: "Gesundheitszentrum", poison_center: "Giftnotruf",
+            sight1: "Diktaion-Höhle", sight2: "Kronion-Höhle", sight3: "Neraidokolympos", sight4: "Kloster Kroustalenia", sight5: "Kloster Vidianis", sight6: "Folklore-Museum"
         },
         fr: {
-            welcome: "BIENVENUE À",
-            location_sub: "Mesa Lasithi, Plateau de Lassithi",
-            location_title: "Emplacement",
-            menu_wifi: "Wi-Fi",
-            menu_rules: "Règlement Intérieur",
-            menu_phones: "Numéros Utiles",
-            menu_sights: "Attractions",
-            menu_food: "Nourriture & Sorties",
-            menu_contact: "Contact",
-            rules_title: "🏠 Règlement",
-            arrival: "Heures d'arrivée",
-            departure: "Heure de départ",
-            dep_val: "jusqu'à 11:00",
-            pets: "Animaux",
-            events: "Événements",
-            smoking: "Tabac",
-            no_allowed: "Non autorisés",
-            no_parties: "Fêtes & événements non autorisés",
-            no_smoking: "Interdiction de fumer à l'intérieur",
-            call: "Appeler",
-            health_center: "Centre de Santé Tzermiado",
-            poison_center: "Centre Antipoison",
-            fire: "Pompiers",
-            police: "Police",
-            ambulance: "Ambulance",
-            emergency: "Numéro d'urgence"
+            welcome: "BIENVENUE À", location_sub: "Mesa Lasithi, Plateau de Lassithi", location_title: "Emplacement",
+            menu_wifi: "Wi-Fi", menu_rules: "Règlement", menu_phones: "Numéros Utiles", menu_sights: "Attractions", menu_food: "Nourriture", menu_contact: "Contact",
+            arrival: "Arrivée", departure: "Départ", dep_val: "jusqu'à 11:00", pets: "Animaux", events: "Événements", smoking: "Tabac",
+            no_allowed: "Non autorisés", no_parties: "Pas de fêtes", no_smoking: "Interdit de fumer",
+            call: "Appeler", maps: "Carte", network: "Réseau", password: "Code", contact_label: "Contact", coming_soon: "Bientôt...",
+            fire: "Pompiers", police: "Police", ambulance: "Ambulance", emergency: "Urgence", health_center: "Centre de Santé", poison_center: "Centre Antipoison",
+            sight1: "Grotte de Psychro", sight2: "Grotte de Kronion", sight3: "Neraidokolympos", sight4: "Monastère Kroustalenia", sight5: "Monastère Vidianis", sight6: "Musée du Folklore"
         },
         it: {
-            welcome: "BENVENUTI A",
-            location_sub: "Mesa Lasithi, Altopiano di Lasithi",
-            location_title: "Posizione",
-            menu_wifi: "WiFi",
-            menu_rules: "Regole della Casa",
-            menu_phones: "Numeri Utili",
-            menu_sights: "Attrazioni",
-            menu_food: "Cibo e Uscite",
-            menu_contact: "Contatto",
-            rules_title: "🏠 Regole",
-            arrival: "Orario di Arrivo",
-            departure: "Orario di Partenza",
-            dep_val: "entro le 11:00",
-            pets: "Animali",
-            events: "Eventi",
-            smoking: "Fumo",
-            no_allowed: "Non ammessi",
-            no_parties: "Feste ed eventi non ammessi",
-            no_smoking: "Vietato fumare all'interno",
-            call: "Chiama",
-            health_center: "Centro Sanitario Tzermiado",
-            poison_center: "Centro Antiveleni",
-            fire: "Vigili del Fuoco",
-            police: "Polizia",
-            ambulance: "Ambulanza",
-            emergency: "Emergenza"
+            welcome: "BENVENUTI A", location_sub: "Mesa Lasithi, Altopiano di Lasithi", location_title: "Posizione",
+            menu_wifi: "WiFi", menu_rules: "Regole", menu_phones: "Numeri Utili", menu_sights: "Attrazioni", menu_food: "Cibo", menu_contact: "Contatto",
+            arrival: "Arrivo", departure: "Partenza", dep_val: "entro le 11:00", pets: "Animali", events: "Eventi", smoking: "Fumo",
+            no_allowed: "Non ammessi", no_parties: "No feste", no_smoking: "Vietato fumare",
+            call: "Chiama", maps: "Mappa", network: "Rete", password: "Code", contact_label: "Contatto", coming_soon: "Prossimamente...",
+            fire: "Vigili del Fuoco", police: "Polizia", ambulance: "Ambulanza", emergency: "Emergenza", health_center: "Centro Sanitario", poison_center: "Centro Antiveleni",
+            sight1: "Grotta di Psychro", sight2: "Grotta di Kronion", sight3: "Neraidokolympos", sight4: "Monastero Kroustalenia", sight5: "Monastero Vidianis", sight6: "Museo del Folklore"
         }
     };
 
     function changeLanguage(lang, element) {
-        // Ενημέρωση ενεργής σημαίας
         document.querySelectorAll('.flag').forEach(f => f.classList.remove('active'));
         element.classList.add('active');
-
-        // Μετάφραση στοιχείων με data-key
         document.querySelectorAll('[data-key]').forEach(el => {
             const key = el.getAttribute('data-key');
-            if (translations[lang][key]) {
-                el.innerText = translations[lang][key];
-            }
+            if (translations[lang][key]) el.innerText = translations[lang][key];
         });
-
-        // Επαναδημιουργία λίστας τηλεφώνων (για να μεταφραστούν οι ετικέτες και η λέξη "Κλήση")
         renderPhones(lang);
+        renderSights(lang);
     }
 
     function renderPhones(lang) {
@@ -416,19 +362,27 @@
             { id: "health_center", icon: "🏥", color: "icon-purple", num: "2844340000" },
             { id: "poison_center", icon: "💀", color: "icon-red", num: "+302107793777" }
         ];
-
-        const list = document.getElementById('phoneList');
-        if (!list) return;
-        
-        list.innerHTML = phones.map(p => `
+        document.getElementById('phoneList').innerHTML = phones.map(p => `
             <a href="tel:${p.num}" class="info-card">
                 <div class="icon-box ${p.color}">${p.icon}</div>
-                <div class="info-details">
-                    <div class="label">${translations[lang][p.id]}</div>
-                    <div class="value">${p.num} <span class="call-tag">${translations[lang].call}</span></div>
-                </div>
-            </a>
-        `).join('');
+                <div class="info-details"><div class="label">${translations[lang][p.id]}</div><div class="value">${p.num} <span class="tag">${translations[lang].call}</span></div></div>
+            </a>`).join('');
+    }
+
+    function renderSights(lang) {
+        const sights = [
+            { id: "sight1", icon: "⛰️", url: "https://maps.app.goo.gl/LjCupBgJ9sJ97BkJ9" },
+            { id: "sight2", icon: "🕳️", url: "https://maps.app.goo.gl/zmS6eCDgkYQmzwib6" },
+            { id: "sight3", icon: "💧", url: "https://maps.app.goo.gl/Zpf7SAgvTnsNTyUq8" },
+            { id: "sight4", icon: "⛪", url: "https://maps.app.goo.gl/H514gkzatM5CE6Vh9" },
+            { id: "sight5", icon: "⛪", url: "https://maps.app.goo.gl/fQCJRDXSEkehg1tH6" },
+            { id: "sight6", icon: "🏛️", url: "https://maps.app.goo.gl/haXUwqhMLTXhM8Lt8" }
+        ];
+        document.getElementById('sightsList').innerHTML = sights.map(s => `
+            <a href="${s.url}" target="_blank" class="info-card">
+                <div class="icon-box icon-blue">${s.icon}</div>
+                <div class="info-details"><div class="label">${translations[lang][s.id]}</div><div class="value" style="color:var(--accent-orange)">Google Maps <span class="tag">${translations[lang].maps}</span></div></div>
+            </a>`).join('');
     }
 
     function showPage(pageId) {
@@ -437,8 +391,8 @@
         window.scrollTo(0,0);
     }
 
-    // Αρχική φόρτωση τηλεφώνων στα Ελληνικά
     renderPhones('gr');
+    renderSights('gr');
 </script>
 
 </body>
